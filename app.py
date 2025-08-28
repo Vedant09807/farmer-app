@@ -6,25 +6,16 @@ from openai import OpenAI
 # --- CONFIG ---
 st.set_page_config(page_title="Farming Assistant", page_icon="🌾", layout="centered")
 
-# Get API key: priority -> Streamlit secrets -> env var -> direct input field (for quick testing)
+# ✅ Get API key only from Streamlit Secrets or Environment
 OPENAI_API_KEY = (
-   OPENAI_API_KEY = (
-    st.secrets.get("OPENAI_API_KEY", None)  # ✅ fetch by name
-    or os.environ.get("OPENAI_API_KEY")
-)
-
-    or os.environ.get("OPENAI_API_KEY")     # or environment variable
+    st.secrets.get("OPENAI_API_KEY", None)   # Streamlit Cloud Secrets UI
+    or os.environ.get("OPENAI_API_KEY")      # Local env variable
 )
 
 st.title("🌾 Farming Assistant (English ↔ Malayalam)")
 
 if not OPENAI_API_KEY:
-    st.warning("No OpenAI API key found. You can paste it below for this session (not saved).")
-    key_input = st.text_input("Paste OpenAI API key (sk-...)", type="password")
-    if key_input:
-        OPENAI_API_KEY = key_input
-
-if not OPENAI_API_KEY:
+    st.warning("⚠️ No OpenAI API key found. Please add it in Streamlit Cloud > Settings > Secrets.")
     st.stop()
 
 # Initialize OpenAI client
@@ -37,7 +28,7 @@ with st.form("question_form"):
     submit = st.form_submit_button("Get Answer")
 
 if submit:
-    if not user_question or user_question.strip() == "":
+    if not user_question.strip():
         st.warning("Please enter a question.")
     else:
         # Detect Malayalam roughly (Unicode block)
@@ -56,7 +47,7 @@ if submit:
         with st.spinner("Contacting AI..."):
             try:
                 resp = client.chat.completions.create(
-                    model="gpt-4o-mini",  # adjust model if needed
+                    model="gpt-4o-mini",  # adjust if needed
                     messages=[{"role": "user", "content": question_en}],
                     max_tokens=800
                 )
@@ -67,7 +58,7 @@ if submit:
 
         if answer_en:
             if is_malayalam:
-                # translate back to Malayalam
+                # Translate back to Malayalam
                 try:
                     answer_ml = GoogleTranslator(source='en', target='ml').translate(answer_en)
                 except Exception as e:
@@ -78,13 +69,10 @@ if submit:
                 st.info("English answer (original):\n\n" + answer_en)
             else:
                 st.success(answer_en)
-                # also show Malayalam translation
+                # Also show Malayalam translation
                 try:
                     answer_ml = GoogleTranslator(source='en', target='ml').translate(answer_en)
                 except Exception:
                     answer_ml = "Translation failed."
                 st.markdown("---")
             st.info("Malayalam translation:\n\n" + answer_ml)
-
-
-
