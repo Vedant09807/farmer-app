@@ -28,7 +28,6 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 st.markdown("Ask farming-related questions in English or Malayalam. The app will translate as needed and return answers in both languages.")
 
-# ✅ This was broken in your copy — fixed now
 with st.form("question_form"):
     user_question = st.text_input("Ask your farming question:")
     submit = st.form_submit_button("Get Answer")
@@ -82,6 +81,3 @@ if submit:
                     answer_ml = "Translation failed."
                 st.markdown("---")
             st.info("Malayalam translation:\n\n" + answer_ml)
-
-
-
