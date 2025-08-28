@@ -8,7 +8,7 @@ st.set_page_config(page_title="Farming Assistant", page_icon="🌾", layout="cen
 
 # Get API key: priority -> Streamlit secrets -> env var -> direct input field (for quick testing)
 OPENAI_API_KEY = (
-    st.secrets.get("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", None)  # if deployed to Streamlit Cloud with secrets
+    st.secrets.get("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", None)  # if deployed to Streamlit Cloud with secrets
     or os.environ.get("OPENAI_API_KEY")     # or environment variable
 )
 
@@ -81,3 +81,4 @@ if submit:
                     answer_ml = "Translation failed."
                 st.markdown("---")
             st.info("Malayalam translation:\n\n" + answer_ml)
+
