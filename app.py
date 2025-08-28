@@ -29,4 +29,6 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 st.markdown("Ask farming-related questions in English or Malayalam. The app will translate as needed and return answers in both languages.")
 
-with st.form("q
+with st.form("question_form"):
+
+
