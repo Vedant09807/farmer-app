@@ -81,6 +81,7 @@ if submit:
                 except Exception:
                     answer_ml = "Translation failed."
                 st.markdown("---")
-               st.info("Malayalam translation:\n\n" + answer_ml)
+            st.info("Malayalam translation:\n\n" + answer_ml)
+
 
 
