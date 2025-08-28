@@ -3,7 +3,7 @@ from openai import OpenAI
 from deep_translator import GoogleTranslator
 
 # Initialize OpenAI
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
   # replace with your API key
 
 st.title("🌾 Farming Assistant (English ↔ Malayalam)")
@@ -42,3 +42,4 @@ if st.button("Get Answer"):
             st.info("Malayalam Answer:\n\n" + answer_ml)
     else:
         st.warning("Please enter a question.")
+
